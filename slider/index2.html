@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+      /* overflow-x: hidden; */
+    }
+
+    main {
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+      background-color: antiquewhite;
+    }
+
+    .slide-container {
+      overflow: hidden;
+      width: 400%;
+      height: 100%;
+      display: flex;
+      /* border: 2px solid red; */
+      transition: 1s;
+    }
+
+    .slider {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+      color: rgb(179, 220, 255);
+      cursor: grab;
+      user-select: all;
+
+    }
+
+    slider:active {
+      cursor: grabbing;
+    }
+
+    h1 {
+      user-select: none;
+    }
+
+    .grabbing {
+      cursor: grabbing;
+    }
+
+    .slide-container>div {
+      background-size: cover;
+      background-repeat: none;
+      background-position: 50%;
+      position: relative;
+    }
+
+    .slide-container>div:nth-of-type(1) {
+      background-image: url(img/m1.jpg);
+    }
+
+    .slide-container>div::after {
+      content: "";
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.226);
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .slide-container>div:nth-of-type(2) {
+      background-image: url(img/m2.jpg);
+    }
+
+    .slide-container>div:nth-of-type(3) {
+      background-image: url(img/m3.jpg);
+    }
+
+    .slide-container>div:nth-of-type(4) {
+      background-image: url(img/m4.jpg);
+    }
+
+    main>span {
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translate(-50%, -10%);
+      z-index: 999;
+      color: rgb(0, 63, 118);
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <span>
+      <h3>&lt;&lt;&nbsp; Click on right or left Side &nbsp;&gt;&gt;</h3>
+    </span>
+    <div class="slide-container">
+      <div class="slider">
+      </div>
+      <div class="slider">
+      </div>
+      <div class="slider">
+      </div>
+      <div class="slider">
+      </div>
+    </div>
+  </main>
+</body>
+<script>
+  const sliders = document.querySelectorAll(".slider")
+  const slide_container = document.getElementsByClassName("slide-container")[0]
+  const slide_width = sliders[0].clientWidth
+  let xPos
+  let turn = 0
+  // console.log(slide_width)
+  // console.log(sliders.length)
+  let down
+  for (i = 0; i < sliders.length; i++) {
+
+    sliders[i].addEventListener("mousedown", function (event) {
+      // down = setInterval(() => {
+      //   this.addEventListener("mousemove", () => {
+
+      //     // console.log(xPos)
+      //   })
+      // }, 0);
+      xPos = event.clientX
+      // console.log(xPos)
+      event.target.style.cursor = "grabbing"
+      if (xPos >= (parseInt(slide_width / 2))) {
+        turn++
+        if (turn < sliders.length) {
+          move()
+        }
+        else {
+          turn = 0
+          move()
+        }
+        // console.log(turn)
+
+
+      } else {
+        turn--
+        // console.log(turn + "-" + xPos)
+        move()
+      }
+    })
+    sliders[i].addEventListener("mouseup", function (event) {
+      event.target.style.cursor = "grab"
+      // clearInterval(down)
+      // this.classlist.remove("grabbing")
+    })
+  }
+  function move() {
+    slide_container.style.transform = "translateX(-" + (slide_width * turn) + "px)"
+    // console.log(slide_container.style.transform)
+  }
+</script>
+
+</html>
